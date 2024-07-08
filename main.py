@@ -29,5 +29,5 @@ if __name__ == "__main__":
 
   html_content = plot_polygon_and_triangles(polygon, triangles)
 
-  with open("polygon_and_triangles2.html", "w") as file:
+  with open("polygon_and_triangles2.html", "w", encoding="utf-8") as file:
     file.write(html_content)
