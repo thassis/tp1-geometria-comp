@@ -3,31 +3,34 @@ from polygon import Polygon
 from triangle import Triangle
 from ear_clipping import check_in_triangle, ear_clipping
 
-def plot_polygon_and_triangles(polygon, triangles):
+def plot_polygon(polygon):
   vertices = polygon.vertices
-  polygon_x = [v[0] for v in vertices] + [vertices[0][0]]
-  polygon_y = [v[1] for v in vertices] + [vertices[0][1]]
-  
+  print(len(vertices))
   fig = go.Figure()
-  fig.add_trace(go.Scatter(x=polygon_x, y=polygon_y, mode='lines+markers', name='Polygon'))
-  
-  for triangle in triangles:
-    tri_x = [triangle.a[0], triangle.b[0], triangle.c[0], triangle.a[0]]
-    tri_y = [triangle.a[1], triangle.b[1], triangle.c[1], triangle.a[1]]
-    fig.add_trace(go.Scatter(x=tri_x, y=tri_y, mode='lines+markers', name='Triangle'))
+  for vertex in vertices:
+    x_values = [vertex[0] for vertex in vertices]
+    y_values = [vertex[1] for vertex in vertices]
 
-  fig.update_layout(title='Polygon and Triangulation',
-    xaxis_title='X',
-    yaxis_title='Y',
-    showlegend=True)
-  
-  return fig.to_html()
+    x_values.append(vertices[0][0])
+    y_values.append(vertices[0][1])
+
+    fig = go.Figure(data=[go.Scatter(x=x_values, y=y_values, mode='lines+markers', name='Polygon')])
+
+    fig.update_layout(
+        title='Polygon',
+        xaxis=dict(title='X'),
+        yaxis=dict(title='Y'),
+        showlegend=True
+    )
+    return fig
 
 if __name__ == "__main__":    
   polygon = Polygon("./instances/agp2007-minarea/min-20-1.pol")
   triangles = ear_clipping(polygon)
 
-  html_content = plot_polygon_and_triangles(polygon, triangles)
+  fig = plot_polygon(polygon)
 
-  with open("polygon_and_triangles2.html", "w", encoding="utf-8") as file:
+  html_content = fig.to_html()
+
+  with open("index.html", "w", encoding="utf-8") as file:
     file.write(html_content)

@@ -55,7 +55,7 @@ def check_ear(vertex1, vertex2, vertex3, vertices) -> bool:
 
 def ear_clipping(polygon):
   triangles = []
-  vertices = polygon.vertices
+  vertices = polygon.vertices.copy()
 
   while len(vertices) > 3:
     for i in range(len(vertices)):
